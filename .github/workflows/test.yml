@@ -8,15 +8,17 @@ jobs:
     name: set-output vs GITHUB_OUTPUT
     runs-on: ubuntu-18.04
     steps:
+      - name: prepare source
+        run: echo -ne "NAME=hoge\r\n" > test.source
       - name: set-output
         run: |
-          NAME="hoge\r"
+          source test.source
           echo -ne "::set-output::name=${NAME}::\n" | xxd -g1
           echo -ne "::set-output::name=${NAME}::\n"
         id: set_output
       - name: GITHUB_OUTPUT
         run: |
-          NAME="hoge\r"
+          source test.source
           echo -ne "name=${NAME}\n" | xxd -g1
           echo -ne "name=${NAME}\n" >> $GITHUB_OUTPUT
         id: github_output
