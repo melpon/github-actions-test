@@ -13,14 +13,14 @@ jobs:
       - name: set-output
         run: |
           source test.source
-          echo -ne "::set-output::name=${NAME}::\n" | xxd -g1
-          echo -ne "::set-output::name=${NAME}::\n"
+          echo "::set-output::name=${NAME}::" | xxd -g1
+          echo "::set-output::name=${NAME}::"
         id: set_output
       - name: GITHUB_OUTPUT
         run: |
           source test.source
-          echo -ne "name=${NAME}\n" | xxd -g1
-          echo -ne "name=${NAME}\n" >> $GITHUB_OUTPUT
+          echo "name=${NAME}" | xxd -g1
+          echo "name=${NAME}" >> $GITHUB_OUTPUT
         id: github_output
       - name: Compare
         run: |
