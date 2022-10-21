@@ -13,8 +13,8 @@ jobs:
       - name: set-output
         run: |
           source test.source
-          echo "::set-output::name=name::${NAME}" | xxd -g1
-          echo "::set-output::name=name::${NAME}"
+          echo "::set-output name=name::${NAME}" | xxd -g1
+          echo "::set-output name=name::${NAME}"
         id: set_output
       - name: GITHUB_OUTPUT
         run: |
