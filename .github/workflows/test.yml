@@ -1,0 +1,29 @@
+name: test
+
+on:
+  push:
+
+jobs:
+  github-output-crlf:
+    name: set-output vs GITHUB_OUTPUT
+    runs-on: ubuntu-18.04
+    steps:
+      - name: set-output
+        run: |
+          NAME="hoge\r"
+          echo -ne "::set-output::name=${NAME}::\n" | xxd -g1
+          echo -ne "::set-output::name=${NAME}::\n"
+        id: set_output
+      - name: GITHUB_OUTPUT
+        run: |
+          NAME="hoge\r"
+          echo -ne "name=${NAME}\n" | xxd -g1
+          echo -ne "name=${NAME}\n" >> $GITHUB_OUTPUT
+        id: github_output
+      - name: Compare
+        run: |
+          echo "@@@${{ steps.set_output.outputs.name }}@@@" | xxd -g1
+          echo "@@@${{ steps.github_output.outputs.name }}@@@" | xxd -g1
+          echo "@@@${{ steps.set_output.outputs.name }}@@@"
+          echo "@@@${{ steps.github_output.outputs.name }}@@@"
+
